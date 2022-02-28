@@ -1,7 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
+#include "Barrel.h"
+#include "Turret.h"
 #include "TankPawn.h"
+#include "TankAimingComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
@@ -13,14 +15,15 @@ ATankPawn::ATankPawn()
 	PrimaryActorTick.bCanEverTick = true;
 	
 	TankMainMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("TankMainMesh"));
-	Turret = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Turret"));
-	Barrel = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Barrel"));
+	Turret = CreateDefaultSubobject<UTurret>(TEXT("Turret"));
+	Barrel = CreateDefaultSubobject<UBarrel>(TEXT("Barrel"));
 	Gun = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Gun"));
 	LeftTrack = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LeftTrack"));
 	RightTrack = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RightTrack"));
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 	AzimuthGimbal = CreateDefaultSubobject<USceneComponent>(TEXT("AzimuthGimbal"));
+	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(TEXT("TankAimingComponent"));
 
 	RootComponent = TankMainMesh;
 	Turret->AttachToComponent(TankMainMesh, FAttachmentTransformRules::KeepRelativeTransform, FName("Turret"));
@@ -32,12 +35,16 @@ ATankPawn::ATankPawn()
 	SpringArm->SetupAttachment(AzimuthGimbal);
 	Camera->SetupAttachment(SpringArm);
 
+	
 }
 
 // Called when the game starts or when spawned
 void ATankPawn::BeginPlay()
 {
 	Super::BeginPlay();
+
+	TankAimingComponent->SetBarrelReference(Barrel);
+	TankAimingComponent->SetTurretReference(Turret);
 }
 
 // Called every frame
@@ -63,4 +70,10 @@ void ATankPawn::LookRight(float AxisValue)
 void ATankPawn::LookUp(float AxisValue)
 {
 	SpringArm->AddLocalRotation(FRotator(GetWorld()->GetDeltaSeconds() * AxisValue * LookUpSpeed, 0.f, 0.f));
+}
+
+void ATankPawn::AimAt(FVector HitLocation)
+{
+	TankAimingComponent->AimAt(HitLocation,LaunchSpeed);
+	
 }

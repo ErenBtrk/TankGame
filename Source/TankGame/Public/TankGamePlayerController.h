@@ -18,7 +18,23 @@ class TANKGAME_API ATankGamePlayerController : public APlayerController
 public:
 	virtual void BeginPlay() override;
 
+	virtual void Tick(float DeltaTime) override;
+
 	ATankPawn* GetControlledTank()const;
 
-	
+private:
+	void AimTowardsCrosshair();
+
+	bool GetSightRayHitLocation(FVector&)const;
+
+	UPROPERTY(EditAnywhere)
+		float CrossHairXLocation = 0.5f;
+	UPROPERTY(EditAnywhere)
+		float CrossHairYLocation = 0.33f;
+
+	bool GetLookDirection(FVector2D,FVector&)const;
+	bool GetLookVectorHitLocation(FVector,FVector&)const;
+
+	float LineTraceRange = 1000000;
+
 };

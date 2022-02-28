@@ -8,6 +8,9 @@
 
 class UCameraComponent;
 class USpringArmComponent;
+class UTankAimingComponent;
+class UBarrel;
+class UTurret;
 
 UCLASS()
 class TANKGAME_API ATankPawn : public APawn
@@ -17,6 +20,8 @@ class TANKGAME_API ATankPawn : public APawn
 public:
 	// Sets default values for this pawn's properties
 	ATankPawn();
+
+	void AimAt(FVector);
 
 protected:
 	// Called when the game starts or when spawned
@@ -33,9 +38,9 @@ private:
 	UPROPERTY(EditAnywhere)
 		UStaticMeshComponent* TankMainMesh = nullptr;
 	UPROPERTY(EditAnywhere)
-		UStaticMeshComponent* Turret = nullptr;
+		UTurret* Turret = nullptr;
 	UPROPERTY(EditAnywhere)
-		UStaticMeshComponent* Barrel = nullptr;
+		UBarrel* Barrel = nullptr;
 	UPROPERTY(EditAnywhere)
 		UStaticMeshComponent* Gun = nullptr;
 	UPROPERTY(EditAnywhere)
@@ -48,6 +53,8 @@ private:
 		USpringArmComponent* SpringArm = nullptr;
 	UPROPERTY(EditAnywhere)
 		USceneComponent* AzimuthGimbal = nullptr;
+	UPROPERTY(EditAnywhere)
+		UTankAimingComponent* TankAimingComponent = nullptr;
 
 	void LookRight(float);
 	void LookUp(float);
@@ -56,5 +63,10 @@ private:
 		float LookUpSpeed;
 	UPROPERTY(EditAnywhere, Category = "Camera Rotate")
 		float LookRightSpeed;
+
+	UPROPERTY(EditAnywhere, Category = "Firing")
+		float LaunchSpeed = 100000;
+
+
 	
 };
