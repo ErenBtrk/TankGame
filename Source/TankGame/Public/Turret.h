@@ -13,5 +13,14 @@ UCLASS()
 class TANKGAME_API UTurret : public UStaticMeshComponent
 {
 	GENERATED_BODY()
-	
+
+public:
+	void RotateTurret(float);
+private:
+	UPROPERTY(EditAnywhere)
+		float MaxDegreesPerSecond = 5.f;
+	UPROPERTY(EditAnywhere)
+		float MaxRotation = 180.f;
+	UPROPERTY(EditAnywhere)
+		float MinRotation = -180.f;
 };

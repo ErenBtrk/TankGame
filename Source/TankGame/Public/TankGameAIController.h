@@ -2,11 +2,12 @@
 
 #pragma once
 
-#include "TankPawn.h"
+
 #include "CoreMinimal.h"
 #include "AIController.h"
 #include "TankGameAIController.generated.h"
 
+class ATankPawn;
 /**
  * 
  */

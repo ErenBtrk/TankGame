@@ -12,7 +12,7 @@
 ATankPawn::ATankPawn()
 {
 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 	
 	TankMainMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("TankMainMesh"));
 	Turret = CreateDefaultSubobject<UTurret>(TEXT("Turret"));
@@ -60,6 +60,7 @@ void ATankPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	InputComponent->BindAxis(FName("LookRight"), this, &ATankPawn::LookRight);
 	InputComponent->BindAxis(FName("LookUp"), this, &ATankPawn::LookUp);
+	InputComponent->BindAction(FName("Fire"), EInputEvent::IE_Pressed, this, &ATankPawn::Fire);
 }
 
 void ATankPawn::LookRight(float AxisValue)
@@ -76,4 +77,9 @@ void ATankPawn::AimAt(FVector HitLocation)
 {
 	TankAimingComponent->AimAt(HitLocation,LaunchSpeed);
 	
+}
+
+void ATankPawn::Fire()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Fire function invoked."));
 }

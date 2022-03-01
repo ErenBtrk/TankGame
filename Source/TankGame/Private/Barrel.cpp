@@ -3,7 +3,11 @@
 
 #include "Barrel.h"
 
-void UBarrel::Elevate(float DegreesPerSecond)
+void UBarrel::Elevate(float RelativeSpeed)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Elevate function is invoked."));
+	RelativeSpeed = FMath::Clamp<float>(RelativeSpeed, -1, +1);
+	auto ElevationChange = RelativeSpeed * MaxDegreesPerSecond * GetWorld()->DeltaTimeSeconds;
+	auto RawNewElevation = GetRelativeRotation().Pitch + ElevationChange;
+	auto ClampedElevation = FMath::Clamp<float>(RawNewElevation, MinElevation, MaxElevation);
+	SetRelativeRotation(FRotator(ClampedElevation, 0.f, 0.f));
 }

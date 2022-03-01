@@ -16,4 +16,12 @@ class TANKGAME_API UBarrel : public UStaticMeshComponent
 
 public:
 	void Elevate(float);
+
+private:
+	UPROPERTY(EditAnywhere)
+		float MaxDegreesPerSecond = 5.f;
+	UPROPERTY(EditAnywhere)
+		float MaxElevation = 40.f;
+	UPROPERTY(EditAnywhere)
+		float MinElevation = 0.f;
 };

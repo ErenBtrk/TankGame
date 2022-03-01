@@ -53,7 +53,7 @@ bool ATankGamePlayerController::GetSightRayHitLocation(FVector& HitLocation)cons
 	FVector LookDirection;
 	if (GetLookDirection(ScreenLocation,LookDirection))
 	{
-		UE_LOG(LogTemp,Warning,TEXT("Look Direction : %s"),*LookDirection.ToString());
+		//UE_LOG(LogTemp,Warning,TEXT("Look Direction : %s"),*LookDirection.ToString());
 		GetLookVectorHitLocation(LookDirection, HitLocation);
 		
 	}
@@ -75,13 +75,16 @@ bool ATankGamePlayerController::GetLookVectorHitLocation(FVector LookDirection, 
 	FVector StartLocation = PlayerCameraManager->GetCameraLocation();
 	FVector EndLocation = StartLocation + (LookDirection * LineTraceRange);
 	FCollisionQueryParams QueryParams;
+	QueryParams.AddIgnoredActor(GetPawn());
 	FCollisionResponseParams ResponseParams;
 	DrawDebugLine(GetWorld(), StartLocation, EndLocation, FColor(255, 0, 0), false, -1, 0, 5.f);
+	
 	if (GetWorld()->LineTraceSingleByChannel(OutHit, StartLocation, EndLocation, ECollisionChannel::ECC_Visibility, QueryParams,ResponseParams))
 	{
 		HitLocation = OutHit.Location;
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, (TEXT("%s"), *OutHit.GetActor()->GetName()));
 		return true;
 	}
-	HitLocation = FVector(0);
+	HitLocation = FVector(EndLocation);
 	return false;
 }

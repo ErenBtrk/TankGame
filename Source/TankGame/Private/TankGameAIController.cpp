@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
+#include "TankPawn.h"
 #include "TankGameAIController.h"
 
 void ATankGameAIController::BeginPlay()
