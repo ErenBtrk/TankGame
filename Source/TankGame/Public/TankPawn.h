@@ -11,6 +11,9 @@ class USpringArmComponent;
 class UTankAimingComponent;
 class UBarrel;
 class UTurret;
+class AProjectile;
+class UTrack;
+class UTankMovementComponent;
 
 UCLASS()
 class TANKGAME_API ATankPawn : public APawn
@@ -29,6 +32,11 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UPROPERTY(EditAnywhere)
+		UTankAimingComponent* TankAimingComponent = nullptr;
+	UPROPERTY(EditAnywhere)
+		UTankMovementComponent* TankMovementComponent = nullptr;
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -46,22 +54,23 @@ private:
 	UPROPERTY(EditAnywhere)
 		UStaticMeshComponent* Gun = nullptr;
 	UPROPERTY(EditAnywhere)
-		UStaticMeshComponent* LeftTrack = nullptr;
+		UTrack* LeftTrack = nullptr;
 	UPROPERTY(EditAnywhere)
-		UStaticMeshComponent* RightTrack = nullptr;
+		UTrack* RightTrack = nullptr;
 	UPROPERTY(EditAnywhere)
 		UCameraComponent* Camera = nullptr;
 	UPROPERTY(EditAnywhere)
 		USpringArmComponent* SpringArm = nullptr;
 	UPROPERTY(EditAnywhere)
 		USceneComponent* AzimuthGimbal = nullptr;
-	UPROPERTY(EditAnywhere)
-		UTankAimingComponent* TankAimingComponent = nullptr;
+
+	UPROPERTY(EditAnywhere, Category = "Setup")
+		TSubclassOf<AProjectile> ProjectileBlueprint;
 
 	void LookRight(float);
 	void LookUp(float);
 
-	UPROPERTY(EditAnywhere,Category = "Camera Rotate")
+	UPROPERTY(EditAnywhere, Category = "Camera Rotate")
 		float LookUpSpeed;
 	UPROPERTY(EditAnywhere, Category = "Camera Rotate")
 		float LookRightSpeed;
@@ -69,6 +78,11 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Firing")
 		float LaunchSpeed = 100000;
 
+	UPROPERTY(EditAnywhere, Category = "Firing")
+		float ReloadTimeInSeconds = 3.f;
 
-	
+	double LastFireTime = 0;
+
+
+
 };
