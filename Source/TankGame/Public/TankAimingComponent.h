@@ -9,6 +9,14 @@
 class UBarrel;
 class UTurret;
 
+UENUM()
+enum class EFiringState : uint8
+{
+	Locked,
+	Aiming,
+	Reloading
+};
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TANKGAME_API UTankAimingComponent : public UActorComponent
 {
@@ -20,12 +28,13 @@ public:
 
 	void AimAt(FVector,float);
 
-	void SetBarrelReference(UBarrel*);
-
-	void SetTurretReference(UTurret*);
+	void Initialise(UBarrel*, UTurret*);
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
+
+	UPROPERTY(BlueprintReadOnly)
+		EFiringState FiringState = EFiringState::Aiming;
 
 public:	
 	// Called every frame
@@ -35,4 +44,6 @@ private:
 	UTurret* Turret = nullptr;
 		
 	void MoveBarrelTowards(FVector);
+
+	
 };

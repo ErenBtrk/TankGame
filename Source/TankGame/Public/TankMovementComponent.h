@@ -19,7 +19,12 @@ class TANKGAME_API UTankMovementComponent : public UNavMovementComponent
 public:
 	void IntendMoveForward(float);
 
+	void IntendTurnRight(float);
+
 	void Initialise(UTrack*, UTrack*);
+
+	UFUNCTION() 
+		virtual void RequestDirectMove(const FVector& MoveVelocity,bool bForceMaxSpeed)override;
 private:
 	UTrack* LeftTrack = nullptr;
 	UTrack* RightTrack = nullptr;

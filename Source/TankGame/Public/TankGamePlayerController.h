@@ -20,8 +20,9 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
-	ATankPawn* GetControlledTank()const;
-
+protected:
+	UFUNCTION(BlueprintCallable)
+		ATankPawn* GetControlledTank()const; 
 private:
 	void AimTowardsCrosshair();
 

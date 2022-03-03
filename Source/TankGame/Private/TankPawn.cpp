@@ -48,8 +48,7 @@ void ATankPawn::BeginPlay()
 {
 	Super::BeginPlay();
 
-	TankAimingComponent->SetBarrelReference(Barrel);
-	TankAimingComponent->SetTurretReference(Turret);
+	TankAimingComponent->Initialise(Barrel, Turret);
 	TankMovementComponent->Initialise(LeftTrack, RightTrack);
 }
 
@@ -67,9 +66,8 @@ void ATankPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	InputComponent->BindAxis(FName("LookRight"), this, &ATankPawn::LookRight);
 	InputComponent->BindAxis(FName("LookUp"), this, &ATankPawn::LookUp);
 	InputComponent->BindAction(FName("Fire"), EInputEvent::IE_Pressed, this, &ATankPawn::Fire);
-	InputComponent->BindAxis(FName("LeftTrackThrottle"), this->LeftTrack, &UTrack::SetThrottle);
-	InputComponent->BindAxis(FName("RightTrackThrottle"), this->RightTrack, &UTrack::SetThrottle);
 	InputComponent->BindAxis(FName("Forward"), this->TankMovementComponent, &UTankMovementComponent::IntendMoveForward);
+	InputComponent->BindAxis(FName("TurnRight"), this->TankMovementComponent, &UTankMovementComponent::IntendTurnRight);
 }
 
 void ATankPawn::LookRight(float AxisValue)
